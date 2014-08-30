@@ -1475,13 +1475,6 @@
         promise.resolve(response);
       }
     };
-    xdr.setTimeout(20000, function(){
-      console.log("parse js sdk request timed out");
-      promise.reject(JSON.stringify({
-          code: Parse.Error.TIMEOUT,
-          error: "parse js sdk request timed out"
-        }));
-    });
     xdr.onerror = xdr.ontimeout = function() {
       // Let's fake a real error message.
       var fakeResponse = {
@@ -1547,6 +1540,13 @@
         }
       }
     };
+    xhr.setTimeout(20000, function(){
+      console.log("parse js sdk request timed out");
+      promise.reject(JSON.stringify({
+        code: Parse.Error.TIMEOUT,
+        error: "parse js sdk request timed out"
+      }));
+    });
     xhr.open(method, url, true);
     xhr.setRequestHeader("Content-Type", "text/plain");  // avoid pre-flight.
     if (Parse._isNode) {
