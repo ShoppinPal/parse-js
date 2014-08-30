@@ -1262,6 +1262,15 @@
     Parse._ = exports._.noConflict();
     Parse.localStorage = require('localStorage');
     Parse.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+    Parse._.extend(Parse.XMLHttpRequest, {
+      setTimeout : function(timeout, cb){
+        console.log("inside setTimeout()");
+        if(request) {
+          console.log("setting up setTimeout()");
+          request.setTimeout(timeout, cb);
+        }
+      }
+    });
     exports.Parse = Parse;
   } else {
     Parse._ = _.noConflict();
