@@ -1262,15 +1262,6 @@
     Parse._ = exports._.noConflict();
     Parse.localStorage = require('localStorage');
     Parse.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-    Parse._.extend(Parse.XMLHttpRequest, {
-      setTimeout : function(timeout, cb){
-        console.log("inside setTimeout()");
-        if(request) {
-          console.log("setting up setTimeout()");
-          request.setTimeout(timeout, cb);
-        }
-      }
-    });
     exports.Parse = Parse;
   } else {
     Parse._ = _.noConflict();
@@ -1549,14 +1540,14 @@
         }
       }
     };
-    xhr.setTimeout(20000, function(){
+    xhr.open(method, url, true);
+    xhr.onTimeoutAfterOpen(20000, function(){
       console.log("parse js sdk request timed out");
       promise.reject(JSON.stringify({
         code: Parse.Error.TIMEOUT,
         error: "parse js sdk request timed out"
       }));
     });
-    xhr.open(method, url, true);
     xhr.setRequestHeader("Content-Type", "text/plain");  // avoid pre-flight.
     if (Parse._isNode) {
       // Add a special user agent just for request from node.js.
